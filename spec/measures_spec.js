@@ -4,6 +4,13 @@ const Measures = require('../src/measures');
 
 describe('measures', () => {
   const lowerBound = 1;
+  const measureName = 'measure name';
+  const upperBound = 5;
+  var measures;
+
+  beforeEach(() => {
+    measures = new Measures(lowerBound, upperBound);
+  });
 
   describe('construction', () => {
     it('requires lowerBound', () => {
@@ -16,10 +23,6 @@ describe('measures', () => {
   });
 
   describe('adding measure', () => {
-    const upperBound = 5;
-    const measures = new Measures(lowerBound, upperBound);
-    const measureName = 'measure name';
-
     it('requires name', () => {
       expect( () => measures.add() ).toThrowError('measure name required');
     });
@@ -31,6 +34,17 @@ describe('measures', () => {
     it('requires value to be in range', () => {
       expect( () => measures.add(measureName, lowerBound - 1) ).toThrowError('measure value must be larger than lowerBound');
       expect( () => measures.add(measureName, upperBound + 1) ).toThrowError('measure value must be less than upperBound');
+    });
+  });
+
+  describe('querying drawable measures', () => {
+    it('returns drawable measures', () => {
+      const fakeDraw = jasmine.createSpyObj('fakeDraw', ['draw'])
+      
+      measures.add(measureName, upperBound);
+      measures.draw(fakeDraw);
+
+      expect(fakeDraw.draw).toHaveBeenCalledWith({x: 0, y: 5, name: measureName});
     });
   });
 });

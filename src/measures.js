@@ -1,3 +1,4 @@
+const Measure = require('./measure');
 class Measures {
     constructor(lowerBound, upperBound) {
       this._bounds = new Bounds(lowerBound, upperBound);
@@ -5,6 +6,11 @@ class Measures {
 
     add(name, value) {
       this._validateAdd(name, value);
+      this._measure = new Measure(name, value);
+    }
+
+    draw(drawer) {
+      drawer.draw(this._measure.render());
     }
 
     _validateAdd(name, value) {
