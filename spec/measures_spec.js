@@ -37,12 +37,12 @@ describe('measures', () => {
     });
   });
 
-  describe('querying drawable measures', () => {
-    it('returns drawable measures', () => {
+  describe('#draw', () => {
+    it('calls draw with points', () => {
       const fakeDraw = jasmine.createSpyObj('fakeDraw', ['draw'])
 
       measures.add(measureName, upperBound);
-      measures.draw(fakeDraw);
+      measures.draw('points', fakeDraw);
 
       expect(fakeDraw.draw).toHaveBeenCalledWith({x: 50, y: 0, name: measureName});
     });

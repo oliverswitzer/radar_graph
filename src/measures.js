@@ -10,7 +10,7 @@ class Measures {
       this._measure = new Measure(this._box, name, value);
     }
 
-    draw(drawer) {
+    draw(type, drawer) {
       drawer.draw(this._measure.render());
     }
 
