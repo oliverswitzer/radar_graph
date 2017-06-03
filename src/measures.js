@@ -12,7 +12,7 @@ class Measures {
 
     draw(type, drawer) {
       if (type === 'points') {
-        drawer.draw(this._measure.point());
+        drawer.draw(this._measure.point(1.58));
       } else if (type === 'lines') {
         drawer.draw(linePresenter(this._measure.line()));
       }

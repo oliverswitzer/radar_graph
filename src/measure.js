@@ -7,8 +7,8 @@ class Measure {
     this._value = value;
   }
 
-  point() {
-    const polar = new PolarCoordinate(this._calculateHeight(), 1.58);
+  point(theta) {
+    const polar = new PolarCoordinate(this._calculateHeight(), theta);
     const cartesian = polar.toCartesian();
     return { x: cartesian.x + this._center.x, y: cartesian.y, name: this._name };
   }

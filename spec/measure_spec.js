@@ -6,18 +6,20 @@ describe('Measure', () => {
       const center = {width: 100, height: 100};
       const measure = new Measure(center, 'measure name', 5);
 
-      expect(measure.point().x).toBeCloseTo(50, 0);
-      expect(measure.point().y).toBeCloseTo(0, 0);
-      expect(measure.point().name).toEqual('measure name');
+      const point = measure.point(1.58);
+      expect(point.x).toBeCloseTo(50, 0);
+      expect(point.y).toBeCloseTo(0, 0);
+      expect(point.name).toEqual('measure name');
     });
 
     it('returns measure with value of one', () => {
       const center = {width: 100, height: 100};
       const measure = new Measure(center, 'measure name', 1);
 
-      expect(measure.point().x).toBeCloseTo(50, 0);
-      expect(measure.point().y).toBeCloseTo(40, 0);
-      expect(measure.point().name).toEqual('measure name');
+      const point = measure.point(1.58);
+      expect(point.x).toBeCloseTo(50, 0);
+      expect(point.y).toBeCloseTo(40, 0);
+      expect(point.name).toEqual('measure name');
     });
   });
 
