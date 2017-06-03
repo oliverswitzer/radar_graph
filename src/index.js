@@ -26,8 +26,8 @@ class Drawer {
 
    _makeLabel(measure) {
      const text = document.createElementNS(this._svgNameSpace, 'text');
-     text.setAttribute('x', measure.x + 0);
-     text.setAttribute('y', measure.y + 100);
+     text.setAttribute('x', measure.x + 20);
+     text.setAttribute('y', measure.y);
      text.setAttribute('fill', '#ff0000');
      text.textContent = measure.name;
      container.appendChild(text);
