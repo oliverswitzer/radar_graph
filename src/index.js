@@ -13,6 +13,7 @@ class PointsDrawer {
   draw(measure) {
     this._makeCircle(measure);
     this._makeLabel(measure);
+    this._makeCircle({x: 50, y: 50, name: 'center'})
    }
 
    _makeCircle(measure) {

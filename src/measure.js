@@ -1,3 +1,4 @@
+const PolarCoordinate =  require('./polar_coordinate');
 class Measure {
   constructor(boundingBox, name, value) {
     this._box = boundingBox;
@@ -7,7 +8,9 @@ class Measure {
   }
 
   point() {
-    return { x: this._center.x, y: this._calculateHeight(), name: this._name };
+    const polar = new PolarCoordinate(this._calculateHeight(), 1.58);
+    const cartesian = polar.toCartesian();
+    return { x: cartesian.x + this._center.x, y: cartesian.y, name: this._name };
   }
 
   line() {
