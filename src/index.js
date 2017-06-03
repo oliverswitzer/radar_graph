@@ -14,7 +14,7 @@ class Drawer {
     this._makeCircle(measure);
     this._makeLabel(measure);
    }
-
+   
    _makeCircle(measure) {
      const circle = document.createElementNS(this._svgNameSpace, 'circle');
      circle.setAttribute('cx', measure.x);

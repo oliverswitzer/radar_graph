@@ -2,11 +2,12 @@ const Measure = require('./measure');
 class Measures {
     constructor(lowerBound, upperBound) {
       this._bounds = new Bounds(lowerBound, upperBound);
+      this._box = { width: 100, height: 100 }
     }
 
     add(name, value) {
       this._validateAdd(name, value);
-      this._measure = new Measure(name, value);
+      this._measure = new Measure(this._box, name, value);
     }
 
     draw(drawer) {
