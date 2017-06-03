@@ -10,6 +10,11 @@ class Measure {
     return { x: this._center.x, y: this._calculateHeight(), name: this._name };
   }
 
+  line() {
+    const x = this._box.width / 2;
+    return [{type: 'M', x: x, y: 0}, {type: 'L', x: x, y: this._box.height}];
+  }
+
   _calculateCenter(box) {
     return {x: box.width / 2, y: box.height / 2}
   }

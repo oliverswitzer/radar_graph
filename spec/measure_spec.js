@@ -16,4 +16,13 @@ describe('Measure', () => {
       expect(measure.point()).toEqual({x: 50, y: 40, name: 'measure name'});
     });
   });
+
+  describe('#line', () => {
+    it('returns measure with value of five', () => {
+      const center = {width: 100, height: 100};
+      const measure = new Measure(center, 'measure name', 5);
+
+      expect(measure.line()).toEqual([{type: 'M', x:50, y: 0}, {type: 'L', x:50, y: 100}]);
+    });
+  });
 });

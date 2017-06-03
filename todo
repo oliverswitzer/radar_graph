@@ -1,2 +1,5 @@
 - calculate theta for each measure
 - when drawing empty set of measures
+- draw second point
+- draw third point
+- move validation of bounds down to unit test

@@ -11,7 +11,11 @@ class Measures {
     }
 
     draw(type, drawer) {
+      if (type === 'points') {
         drawer.draw(this._measure.point());
+      } else if (type === 'lines') {
+        drawer.draw(linePresenter(this._measure.line()));
+      }
     }
 
     _validateAdd(name, value) {
@@ -27,6 +31,10 @@ class Measures {
       }
       this._bounds.inRange(value);
     }
+}
+
+function linePresenter(lines) {
+  return {d: lines.map((l) => `${l.type} ${l.x} ${l.y}`).join(' ')};
 }
 
 class Bounds {

@@ -46,5 +46,14 @@ describe('measures', () => {
 
       expect(fakeDraw.draw).toHaveBeenCalledWith({x: 50, y: 0, name: measureName});
     });
+
+    it('calls draw with lines', () => {
+      const fakeDraw = jasmine.createSpyObj('fakeDraw', ['draw'])
+
+      measures.add(measureName, upperBound);
+      measures.draw('lines', fakeDraw);
+
+      expect(fakeDraw.draw).toHaveBeenCalledWith({d: 'M 50 0 L 50 100'});
+    });
   });
 });

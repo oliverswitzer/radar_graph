@@ -2,9 +2,9 @@ const Measures = require('./measures');
 var measures = new Measures(1, 5);
 measures.add('example', 2);
 
-const container = document.getElementById('svg-container');
+const c = document.getElementById('svg-container');
 
-class Drawer {
+class PointsDrawer {
   constructor(container) {
     this._svgNameSpace = 'http://www.w3.org/2000/svg';
     this._container = container;
@@ -21,7 +21,7 @@ class Drawer {
      circle.setAttribute('cy', measure.y);
      circle.setAttribute('r', 2);
      circle.setAttribute('stroke', '#ff0000');
-     container.appendChild(circle);
+     this._container.appendChild(circle);
    }
 
    _makeLabel(measure) {
@@ -30,8 +30,23 @@ class Drawer {
      text.setAttribute('y', measure.y);
      text.setAttribute('fill', '#ff0000');
      text.textContent = measure.name;
-     container.appendChild(text);
+     this._container.appendChild(text);
    }
 }
 
-measures.draw('points', new Drawer());
+class LinesDrawer {
+  constructor(container) {
+    this._svgNameSpace = 'http://www.w3.org/2000/svg';
+    this._container = container;
+  }
+
+  draw(line) {
+    const path = document.createElementNS(this._svgNameSpace, 'path');
+    path.setAttribute('d', line.d);
+    path.setAttribute('stroke', 'grey');
+    this._container.appendChild(path);
+   }
+}
+
+measures.draw('points', new PointsDrawer(c));
+measures.draw('lines', new LinesDrawer(c));
