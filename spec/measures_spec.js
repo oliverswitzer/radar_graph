@@ -17,16 +17,20 @@ describe('measures', () => {
     });
   });
 
-  it('requires measure name', () => {
-    expect( () => measures.add() ).toThrowError('measure name required');
-  });
+  describe('adding measure', () => {
+    const measureName = 'measure name';
 
-  it('requires measure value', () => {
-    expect( () => measures.add('measure name') ).toThrowError('measure value required');
-  });
+    it('requires name', () => {
+      expect( () => measures.add() ).toThrowError('measure name required');
+    });
 
-  it('requires measure value to be in range', () => {
-    expect( () => measures.add('measure name', 0) ).toThrowError('measure value must be larger than lowerBound');
-    expect( () => measures.add('measure name', 6) ).toThrowError('measure value must be less than upperBound');
+    it('requires value', () => {
+      expect( () => measures.add(measureName) ).toThrowError('measure value required');
+    });
+
+    it('requires value to be in range', () => {
+      expect( () => measures.add(measureName, lowerBound - 1) ).toThrowError('measure value must be larger than lowerBound');
+      expect( () => measures.add(measureName, upperBound + 1) ).toThrowError('measure value must be less than upperBound');
+    });
   });
 });
