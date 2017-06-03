@@ -4,8 +4,6 @@ const Measures = require('../src/measures');
 
 describe('measures', () => {
   const lowerBound = 1;
-  const upperBound = 5;
-  const measures = new Measures(lowerBound, upperBound);
 
   describe('construction', () => {
     it('requires lowerBound', () => {
@@ -18,6 +16,8 @@ describe('measures', () => {
   });
 
   describe('adding measure', () => {
+    const upperBound = 5;
+    const measures = new Measures(lowerBound, upperBound);
     const measureName = 'measure name';
 
     it('requires name', () => {
