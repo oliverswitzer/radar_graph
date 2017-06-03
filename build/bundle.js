@@ -67,81 +67,8 @@
 /******/ })
 /************************************************************************/
 /******/ ([
-/* 0 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var LabelsDrawer = function () {
-  function LabelsDrawer() {
-    _classCallCheck(this, LabelsDrawer);
-
-    this._svgNameSpace = 'http://www.w3.org/2000/svg';
-  }
-
-  _createClass(LabelsDrawer, [{
-    key: 'draw',
-    value: function draw(container, measure) {
-      var text = document.createElementNS(this._svgNameSpace, 'text');
-      var circleElement = document.querySelector('[data-name=\'' + measure.name + '\']');
-      var rect = circleElement.getBoundingClientRect();
-
-      text.setAttribute('x', measure.x);
-      text.setAttribute('y', measure.y);
-      text.setAttribute('fill', '#000000');
-      text.setAttribute('transform', 'rotate(' + measure.angle * -1 + ', ' + rect.left + ', ' + rect.top + ')');
-      text.textContent = measure.name + ' (' + measure.value + ')';
-      container.appendChild(text);
-    }
-  }]);
-
-  return LabelsDrawer;
-}();
-
-module.exports = LabelsDrawer;
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var LinesDrawer = function () {
-  function LinesDrawer(box, container) {
-    _classCallCheck(this, LinesDrawer);
-
-    this._box = box;
-    this._svgNameSpace = 'http://www.w3.org/2000/svg';
-    this._container = container;
-  }
-
-  _createClass(LinesDrawer, [{
-    key: 'draw',
-    value: function draw(line) {
-      var path = document.createElementNS(this._svgNameSpace, 'path');
-      path.setAttribute('d', line.d);
-      path.setAttribute('stroke', '#dedede');
-      path.setAttribute('transform', 'rotate(' + line.angle + ', ' + this._box.center.x + ', ' + this._box.center.y + ')');
-      this._container.appendChild(path);
-    }
-  }]);
-
-  return LinesDrawer;
-}();
-
-module.exports = LinesDrawer;
-
-/***/ }),
+/* 0 */,
+/* 1 */,
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -152,195 +79,184 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var Measure = __webpack_require__(7);
+
 var Measures = function () {
-  function Measures() {
+  function Measures(lowerBound, upperBound) {
     _classCallCheck(this, Measures);
+
+    this._bounds = new Bounds(lowerBound, upperBound);
+    this._box = { width: 100, height: 100 };
   }
 
   _createClass(Measures, [{
     key: 'add',
-    value: function add() {
-      throw new Error('measure name required');
+    value: function add(name, value) {
+      this._validateAdd(name, value);
+      this._measure = new Measure(this._box, name, value);
+    }
+  }, {
+    key: 'draw',
+    value: function draw(drawer) {
+      drawer.draw(this._measure.render());
+    }
+  }, {
+    key: '_validateAdd',
+    value: function _validateAdd(name, value) {
+      if (name == null) {
+        throw new Error('measure name required');
+      }
+      this._validateValue(value);
+    }
+  }, {
+    key: '_validateValue',
+    value: function _validateValue(value) {
+      if (value == null) {
+        throw new Error('measure value required');
+      }
+      this._bounds.inRange(value);
     }
   }]);
 
   return Measures;
 }();
 
+var Bounds = function () {
+  function Bounds(lowerBound, upperBound) {
+    _classCallCheck(this, Bounds);
+
+    if (lowerBound == null) {
+      throw new Error('lowerBound is required');
+    }
+    if (upperBound == null) {
+      throw new Error('upperBound is required');
+    }
+
+    this._lowerBound = lowerBound;
+    this._upperBound = upperBound;
+  }
+
+  _createClass(Bounds, [{
+    key: 'inRange',
+    value: function inRange(value) {
+      if (value < this._lowerBound) {
+        throw new Error('measure value must be larger than lowerBound');
+      }
+      if (value > this._upperBound) {
+        throw new Error('measure value must be less than upperBound');
+      }
+    }
+  }]);
+
+  return Bounds;
+}();
+
 module.exports = Measures;
 
 /***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var PointsDrawer = function () {
-  function PointsDrawer() {
-    _classCallCheck(this, PointsDrawer);
-
-    this._svgNameSpace = 'http://www.w3.org/2000/svg';
-  }
-
-  _createClass(PointsDrawer, [{
-    key: 'draw',
-    value: function draw(container, measure) {
-      var circle = document.createElementNS(this._svgNameSpace, 'circle');
-      circle.setAttribute('cx', measure.x);
-      circle.setAttribute('cy', measure.y);
-      circle.setAttribute('data-name', measure.name);
-      circle.setAttribute('r', 2);
-      circle.setAttribute('stroke', '#ff0000');
-      container.appendChild(circle);
-    }
-  }]);
-
-  return PointsDrawer;
-}();
-
-module.exports = PointsDrawer;
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-// Requires points to have been drawn
-var PointsPathDrawer = function () {
-  function PointsPathDrawer(container) {
-    _classCallCheck(this, PointsPathDrawer);
-
-    this._svgNameSpace = 'http://www.w3.org/2000/svg';
-  }
-
-  _createClass(PointsPathDrawer, [{
-    key: 'draw',
-    value: function draw(container) {
-      var path = document.createElementNS(this._svgNameSpace, 'path');
-      path.setAttribute('d', this._buildPath());
-      path.setAttribute('id', 'points-path');
-      path.setAttribute('fill', 'rgba(255, 0, 0, .60)');
-
-      var groups = document.getElementsByTagName('g');
-      container.insertBefore(path, groups[0]);
-    }
-  }, {
-    key: '_buildPath',
-    value: function _buildPath() {
-      var _this = this;
-
-      var bounding = document.getElementById('svg-container').getBoundingClientRect();
-      var listOfCircles = this._getCircles();;
-      return listOfCircles.map(function (circle, i) {
-        var rect = circle.getBoundingClientRect();
-        var radius = parseInt(circle.getAttribute('r'));
-        return _this._getCommand(i) + ' ' + (rect.left - bounding.left + radius) + ' ' + (rect.top - bounding.top + radius);
-      }).join(' ');
-    }
-  }, {
-    key: '_getCommand',
-    value: function _getCommand(i) {
-      if (i === 0) {
-        return 'M';
-      } else {
-        return 'L';
-      }
-    }
-  }, {
-    key: '_getCircles',
-    value: function _getCircles() {
-      var circleElements = document.getElementsByTagName('circle');
-      var array = [];
-      for (var i = 0; i < circleElements.length; i++) {
-        array.push(circleElements[i]);
-      }
-      return array;
-    }
-  }]);
-
-  return PointsPathDrawer;
-}();
-
-module.exports = PointsPathDrawer;
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var TransformDrawer = function () {
-  function TransformDrawer(box, container, drawers) {
-    _classCallCheck(this, TransformDrawer);
-
-    this._box = box;
-    this._svgNameSpace = 'http://www.w3.org/2000/svg';
-    this._container = container;
-    this._drawers = drawers;
-  }
-
-  _createClass(TransformDrawer, [{
-    key: 'draw',
-    value: function draw(measure) {
-      var wrapper = document.createElementNS(this._svgNameSpace, 'g');
-      this._container.appendChild(wrapper);
-
-      this._drawers.forEach(function (d) {
-        return d.draw(wrapper, measure);
-      });
-
-      wrapper.setAttribute('transform', 'rotate(' + measure.angle + ', ' + this._box.center.x + ', ' + this._box.center.y + ')');
-    }
-  }]);
-
-  return TransformDrawer;
-}();
-
-module.exports = TransformDrawer;
-
-/***/ }),
+/* 3 */,
+/* 4 */,
+/* 5 */,
 /* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 var Measures = __webpack_require__(2);
-var TransformDrawer = __webpack_require__(5);
-var PointsDrawer = __webpack_require__(3);
-var LabelsDrawer = __webpack_require__(0);
-var LinesDrawer = __webpack_require__(1);
-var PointsPathDrawer = __webpack_require__(4);
+var measures = new Measures(1, 5);
+measures.add('example', 2);
 
-var box = { width: 300, height: 300, center: { x: 150, y: 150 } };
-var measures = new Measures(1, 5, box, 20);
-measures.add('feedback', 3);
-measures.add('courage', 4);
-measures.add('communication', 2.5);
-measures.add('respect', 5);
-measures.add('simplicity', 1);
+var container = document.getElementById('svg-container');
 
-var c = document.getElementById('svg-container');
+var Drawer = function () {
+  function Drawer(container) {
+    _classCallCheck(this, Drawer);
 
-measures.draw('lines', new LinesDrawer(box, c));
-measures.draw('points', new TransformDrawer(box, c, [new PointsDrawer(), new LabelsDrawer()]));
-new PointsPathDrawer().draw(c);
+    this._svgNameSpace = 'http://www.w3.org/2000/svg';
+    this._container = container;
+  }
+
+  _createClass(Drawer, [{
+    key: 'draw',
+    value: function draw(measure) {
+      this._makeCircle(measure);
+      this._makeLabel(measure);
+    }
+  }, {
+    key: '_makeCircle',
+    value: function _makeCircle(measure) {
+      var circle = document.createElementNS(this._svgNameSpace, 'circle');
+      circle.setAttribute('cx', measure.x);
+      circle.setAttribute('cy', measure.y);
+      circle.setAttribute('r', 2);
+      circle.setAttribute('stroke', '#ff0000');
+      container.appendChild(circle);
+    }
+  }, {
+    key: '_makeLabel',
+    value: function _makeLabel(measure) {
+      var text = document.createElementNS(this._svgNameSpace, 'text');
+      text.setAttribute('x', measure.x + 20);
+      text.setAttribute('y', measure.y);
+      text.setAttribute('fill', '#ff0000');
+      text.textContent = measure.name;
+      container.appendChild(text);
+    }
+  }]);
+
+  return Drawer;
+}();
+
+measures.draw(new Drawer());
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Measure = function () {
+  function Measure(boundingBox, name, value) {
+    _classCallCheck(this, Measure);
+
+    this._box = boundingBox;
+    this._center = this._calculateCenter(boundingBox);
+    this._name = name;
+    this._value = value;
+  }
+
+  _createClass(Measure, [{
+    key: "render",
+    value: function render() {
+      return { x: this._center.x, y: this._calculateHeight(), name: this._name };
+    }
+  }, {
+    key: "_calculateCenter",
+    value: function _calculateCenter(box) {
+      return { x: box.width / 2, y: box.height / 2 };
+    }
+  }, {
+    key: "_calculateHeight",
+    value: function _calculateHeight() {
+      // 10 is the height of each marker in the range
+      return this._box.height / 2 - 10 * this._value;
+    }
+  }]);
+
+  return Measure;
+}();
+
+module.exports = Measure;
 
 /***/ })
 /******/ ]);
