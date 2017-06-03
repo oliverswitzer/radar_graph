@@ -6,7 +6,7 @@ class Measure {
     this._value = value;
   }
 
-  render() {
+  point() {
     return { x: this._center.x, y: this._calculateHeight(), name: this._name };
   }
 

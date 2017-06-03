@@ -11,7 +11,7 @@ class Measures {
     }
 
     draw(type, drawer) {
-      drawer.draw(this._measure.render());
+        drawer.draw(this._measure.point());
     }
 
     _validateAdd(name, value) {
