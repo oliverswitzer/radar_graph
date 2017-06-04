@@ -1,6 +1,7 @@
 const Measures = require('./measures');
 var measures = new Measures(1, 5);
 measures.add('example', 2);
+measures.add('example', 2);
 
 const c = document.getElementById('svg-container');
 
@@ -13,7 +14,6 @@ class PointsDrawer {
   draw(measure) {
     this._makeCircle(measure);
     this._makeLabel(measure);
-    this._makeCircle({x: 50, y: 50, name: 'center'})
    }
 
    _makeCircle(measure) {
@@ -22,6 +22,7 @@ class PointsDrawer {
      circle.setAttribute('cy', measure.y);
      circle.setAttribute('r', 2);
      circle.setAttribute('stroke', '#ff0000');
+     circle.setAttribute('transform', `rotate(${measure.angle}, 50, 50)`);
      this._container.appendChild(circle);
    }
 

@@ -3,21 +3,24 @@ class Measures {
     constructor(lowerBound, upperBound) {
       this._bounds = new Bounds(lowerBound, upperBound);
       this._box = { width: 100, height: 100 }
+      this._measures = [];
     }
 
     add(name, value) {
       this._validateAdd(name, value);
-      this._measure = new Measure(this._box, name, value);
+      this._measures.push(new Measure(this._box, name, value));
     }
 
     draw(type, drawer) {
-      if (type === 'points') {
-        var point = this._measure.point(1.58);
-        point.angle = 90;
-        drawer.draw(point);
-      } else if (type === 'lines') {
-        drawer.draw(linePresenter(this._measure.line()));
-      }
+      this._measures.forEach((measure, i ) => {
+        if (type === 'points') {
+          var point = measure.point();
+          point.angle = this._calculateAngle(i);
+          drawer.draw(point);
+        } else if (type === 'lines') {
+          drawer.draw(linePresenter(measure.line()));
+        }
+      });
     }
 
     _validateAdd(name, value) {
@@ -32,6 +35,15 @@ class Measures {
         throw new Error('measure value required');
       }
       this._bounds.inRange(value);
+    }
+
+    _calculateAngle(index) {
+      const angleDiff = 360 / this._measures.length;
+      if (this._measures.length > 2 ) {
+        return (index * angleDiff) - (angleDiff / 2);
+      } else {
+        return Math.max(0, (index * angleDiff) - (angleDiff / 2));
+      }
     }
 }
 

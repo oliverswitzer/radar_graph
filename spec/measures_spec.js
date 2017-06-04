@@ -38,13 +38,32 @@ describe('measures', () => {
   });
 
   describe('#draw', () => {
-    it('calls draw with points', () => {
-      const fakeDraw = jasmine.createSpyObj('fakeDraw', ['draw'])
+    describe('when there are two points', () => {
+      it('calls draw with points', () => {
+        const fakeDraw = jasmine.createSpyObj('fakeDraw', ['draw'])
 
-      measures.add(measureName, upperBound);
-      measures.draw('points', fakeDraw);
+        measures.add(measureName, upperBound);
+        measures.add(measureName, upperBound);
+        measures.draw('points', fakeDraw);
 
-      expect(fakeDraw.draw).toHaveBeenCalledWith({x: 50, y: 0, name: measureName, angle: 90});
+        expect(fakeDraw.draw).toHaveBeenCalledWith({x: 50, y: 0, name: measureName, angle: 0});
+        expect(fakeDraw.draw).toHaveBeenCalledWith({x: 50, y: 0, name: measureName, angle: 90});
+      });
+    });
+
+    describe('when there are three points', () => {
+      it('calls draw with points', () => {
+        const fakeDraw = jasmine.createSpyObj('fakeDraw', ['draw'])
+
+        measures.add(measureName, upperBound);
+        measures.add(measureName, upperBound);
+        measures.add(measureName, upperBound);
+        measures.draw('points', fakeDraw);
+
+        expect(fakeDraw.draw).toHaveBeenCalledWith({x: 50, y: 0, name: measureName, angle: -60});
+        expect(fakeDraw.draw).toHaveBeenCalledWith({x: 50, y: 0, name: measureName, angle: 60});
+        expect(fakeDraw.draw).toHaveBeenCalledWith({x: 50, y: 0, name: measureName, angle: 180});
+      });
     });
 
     it('calls draw with lines', () => {
