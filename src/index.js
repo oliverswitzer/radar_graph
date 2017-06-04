@@ -53,7 +53,7 @@ class LabelsDrawer {
 
     text.setAttribute('x', measure.x);
     text.setAttribute('y', measure.y);
-    text.setAttribute('fill', '#ff0000');
+    text.setAttribute('fill', '#000000');
     text.setAttribute('transform', `rotate(${measure.angle * -1}, ${rect.left}, ${rect.top})`);
     text.textContent = measure.name;
     container.appendChild(text);
@@ -69,47 +69,54 @@ class LinesDrawer {
   draw(line) {
     const path = document.createElementNS(this._svgNameSpace, 'path');
     path.setAttribute('d', line.d);
-    path.setAttribute('stroke', 'grey');
+    path.setAttribute('stroke', '#dedede');
     path.setAttribute('transform', `rotate(${line.angle}, ${box.center.x}, ${box.center.y})`);
     this._container.appendChild(path);
    }
 }
 
+class HackyPath {
+  constructor(container) {
+    this._svgNameSpace = 'http://www.w3.org/2000/svg';
+  }
 
+  draw(container) {
+   const path = document.createElementNS(this._svgNameSpace, 'path');
+   path.setAttribute('d', this._buildPath());
+   path.setAttribute('fill', 'rgba(255, 0, 0, .60)');
+   path.setAttribute('style', 'z-index: -1;');
 
-   //
-  //  _drawPathBetweenPoints() {
-  //    const p = document.createElementNS(this._svgNameSpace, 'path');
-  //    p.setAttribute('d', this._path());
-  //    p.setAttribute('fill', 'rgba(255, 0, 0, .60)');
-  //    c.appendChild(p);
-  //  }
-   //
-  //  _path() {
-  //    const bounding = document.getElementById('svg-container').getBoundingClientRect();
-  //    const listOfCircles = this._getCircles();
-  //    return listOfCircles.map((circle, i) => {
-  //      const rect = circle.getBoundingClientRect();
-  //      const radius = parseInt(circle.getAttribute('r'));
-  //      return `${this._getCommand(i)} ${rect.left - bounding.left + radius} ${rect.top - bounding.top + radius}`
-  //    }).join(' ');
-  //  }
-   //
-  //   _getCommand(i) {
-  //    if (i === 0) {
-  //      return 'M';
-  //    } else {
-  //      return 'L';
-  //    }
-  //  }
-   //
-  //  _getCircles() {
-  //    const circleElements = document.getElementsByTagName('circle');
-  //    let array = []
-  //    for (var i = 0; i < circleElements.length; i++) {
-  //      array.push(circleElements[i]);
-  //    }
-  //    return array;
-  //  }
+   container.appendChild(path);
+ }
+
+ _buildPath() {
+   const bounding = document.getElementById('svg-container').getBoundingClientRect();
+   const listOfCircles = this._getCircles();;
+   return listOfCircles.map((circle, i) => {
+     const rect = circle.getBoundingClientRect();
+     const radius = parseInt(circle.getAttribute('r'));
+     return `${this._getCommand(i)} ${rect.left - bounding.left + radius} ${rect.top - bounding.top + radius}`
+   }).join(' ');
+ }
+
+  _getCommand(i) {
+   if (i === 0) {
+     return 'M';
+   } else {
+     return 'L';
+   }
+ }
+
+ _getCircles() {
+   const circleElements = document.getElementsByTagName('circle');
+   let array = []
+   for (var i = 0; i < circleElements.length; i++) {
+     array.push(circleElements[i]);
+   }
+   return array;
+ }
+}
+
 measures.draw('lines', new LinesDrawer(c));
 measures.draw('points', new TransformDrawer(c, [new PointsDrawer(), new LabelsDrawer()]));
+(new HackyPath()).draw(c);
