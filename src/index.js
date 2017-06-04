@@ -1,4 +1,10 @@
 const Measures = require('./measures');
+const TransformDrawer = require('./transform_drawer');
+const PointsDrawer = require('./points_drawer');
+const LabelsDrawer = require('./labels_drawer');
+const LinesDrawer = require('./lines_drawer');
+const PointsPathDrawer = require('./points_path_drawer');
+
 var box = { width: 300, height: 300, center: { x: 150, y: 150 } }
 var measures = new Measures(1, 5, box, 20);
 measures.add('feedback', 3);
@@ -8,116 +14,7 @@ measures.add('respect', 5);
 measures.add('simplicity', 1);
 
 const c = document.getElementById('svg-container');
-class TransformDrawer {
-  constructor(container, drawers) {
-    this._svgNameSpace = 'http://www.w3.org/2000/svg';
-    this._container = container;
-    this._drawers = drawers;
-  }
 
-  draw(measure) {
-    const wrapper = document.createElementNS(this._svgNameSpace, 'g');
-    this._container.appendChild(wrapper);
-
-    this._drawers.forEach((d) => d.draw(wrapper, measure));
-
-    wrapper.setAttribute('transform', `rotate(${measure.angle}, ${box.center.x}, ${box.center.y})`);
-   }
-}
-
-class PointsDrawer {
-  constructor() {
-    this._svgNameSpace = 'http://www.w3.org/2000/svg';
-  }
-
-  draw(container, measure) {
-    const circle = document.createElementNS(this._svgNameSpace, 'circle');
-    circle.setAttribute('cx', measure.x);
-    circle.setAttribute('cy', measure.y);
-    circle.setAttribute('data-name', measure.name);
-    circle.setAttribute('r', 2);
-    circle.setAttribute('stroke', '#ff0000');
-    container.appendChild(circle);
-  }
-}
-
-class LabelsDrawer {
-  constructor() {
-    this._svgNameSpace = 'http://www.w3.org/2000/svg';
-  }
-
-  draw(container, measure) {
-    const text = document.createElementNS(this._svgNameSpace, 'text');
-    const circleElement = document.querySelector(`[data-name='${measure.name}']`);
-    const rect = circleElement.getBoundingClientRect();
-
-    text.setAttribute('x', measure.x);
-    text.setAttribute('y', measure.y);
-    text.setAttribute('fill', '#000000');
-    text.setAttribute('transform', `rotate(${measure.angle * -1}, ${rect.left}, ${rect.top})`);
-    text.textContent = `${measure.name} (${measure.value})`;
-    container.appendChild(text);
-  }
-}
-
-class LinesDrawer {
-  constructor(container) {
-    this._svgNameSpace = 'http://www.w3.org/2000/svg';
-    this._container = container;
-  }
-
-  draw(line) {
-    const path = document.createElementNS(this._svgNameSpace, 'path');
-    path.setAttribute('d', line.d);
-    path.setAttribute('stroke', '#dedede');
-    path.setAttribute('transform', `rotate(${line.angle}, ${box.center.x}, ${box.center.y})`);
-    this._container.appendChild(path);
-   }
-}
-
-class HackyPath {
-  constructor(container) {
-    this._svgNameSpace = 'http://www.w3.org/2000/svg';
-  }
-
-  draw(container) {
-   const path = document.createElementNS(this._svgNameSpace, 'path');
-   path.setAttribute('d', this._buildPath());
-   path.setAttribute('id', 'points-path');
-   path.setAttribute('fill', 'rgba(255, 0, 0, .60)');
-
-   var groups = document.getElementsByTagName('g');
-   container.insertBefore(path, groups[0]);
- }
-
- _buildPath() {
-   const bounding = document.getElementById('svg-container').getBoundingClientRect();
-   const listOfCircles = this._getCircles();;
-   return listOfCircles.map((circle, i) => {
-     const rect = circle.getBoundingClientRect();
-     const radius = parseInt(circle.getAttribute('r'));
-     return `${this._getCommand(i)} ${rect.left - bounding.left + radius} ${rect.top - bounding.top + radius}`
-   }).join(' ');
- }
-
-  _getCommand(i) {
-   if (i === 0) {
-     return 'M';
-   } else {
-     return 'L';
-   }
- }
-
- _getCircles() {
-   const circleElements = document.getElementsByTagName('circle');
-   let array = []
-   for (var i = 0; i < circleElements.length; i++) {
-     array.push(circleElements[i]);
-   }
-   return array;
- }
-}
-
-measures.draw('lines', new LinesDrawer(c));
-measures.draw('points', new TransformDrawer(c, [new PointsDrawer(), new LabelsDrawer()]));
-(new HackyPath()).draw(c);
+measures.draw('lines', new LinesDrawer(box, c));
+measures.draw('points', new TransformDrawer(box, c, [new PointsDrawer(), new LabelsDrawer()]));
+(new PointsPathDrawer()).draw(c);

@@ -1,3 +1,4 @@
 - when drawing empty set of measures
 - move validation of bounds down to unit test
 - implement query methods rather than callback
+- Rename drawers to not be plural
