@@ -47,8 +47,8 @@ describe('measures', () => {
         measures.add(measureName, upperBound);
         measures.draw('points', fakeDraw);
 
-        expect(fakeDraw.draw).toHaveBeenCalledWith({x: 50, y: 0, name: measureName, angle: 0});
-        expect(fakeDraw.draw).toHaveBeenCalledWith({x: 50, y: 0, name: measureName, angle: 90});
+        expect(fakeDraw.draw).toHaveBeenCalledWith({x: 50, y: 0, name: measureName, angle: 0, value: upperBound});
+        expect(fakeDraw.draw).toHaveBeenCalledWith({x: 50, y: 0, name: measureName, angle: 90, value: upperBound});
       });
     });
 
@@ -61,9 +61,9 @@ describe('measures', () => {
         measures.add(measureName, upperBound);
         measures.draw('points', fakeDraw);
 
-        expect(fakeDraw.draw).toHaveBeenCalledWith({x: 50, y: 0, name: measureName, angle: -60});
-        expect(fakeDraw.draw).toHaveBeenCalledWith({x: 50, y: 0, name: measureName, angle: 60});
-        expect(fakeDraw.draw).toHaveBeenCalledWith({x: 50, y: 0, name: measureName, angle: 180});
+        expect(fakeDraw.draw).toHaveBeenCalledWith({x: 50, y: 0, name: measureName, angle: -60, value: upperBound});
+        expect(fakeDraw.draw).toHaveBeenCalledWith({x: 50, y: 0, name: measureName, angle: 60, value: upperBound});
+        expect(fakeDraw.draw).toHaveBeenCalledWith({x: 50, y: 0, name: measureName, angle: 180, value: upperBound});
       });
     });
 

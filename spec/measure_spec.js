@@ -2,10 +2,18 @@ const Measure = require('../src/measure');
 
 describe('Measure', () => {
   const stepSize = 10;
-  
+  const center = {width: 100, height: 100};
+
+  describe('#value', () => {
+    it('returns value', () => {
+      const measure = new Measure(center, 'measure name', 5, stepSize);
+
+      expect(measure.value()).toEqual(5);
+    });
+  });
+
   describe('#point', () => {
     it('returns measure with value of five', () => {
-      const center = {width: 100, height: 100};
       const measure = new Measure(center, 'measure name', 5, stepSize);
 
       const point = measure.point();
@@ -15,7 +23,6 @@ describe('Measure', () => {
     });
 
     it('returns measure with value of one', () => {
-      const center = {width: 100, height: 100};
       const measure = new Measure(center, 'measure name', 1, stepSize);
 
       const point = measure.point();
@@ -27,7 +34,6 @@ describe('Measure', () => {
 
   describe('#line', () => {
     it('returns measure with value of five', () => {
-      const center = {width: 100, height: 100};
       const measure = new Measure(center, 'measure name', 5, stepSize);
 
       expect(measure.line()).toEqual([{type: 'M', x:50, y: 0}, {type: 'L', x:50, y: 100}]);

@@ -18,6 +18,7 @@ class Measures {
         if (type === 'points') {
           var point = measure.point();
           point.angle = angle;
+          point.value = measure.value();
           drawer.draw(point);
         } else if (type === 'lines') {
           drawer.draw(linePresenter(measure.line(), angle));

@@ -1,5 +1,5 @@
 const Measures = require('./measures');
-var box = { width: 200, height: 200, center: { x: 100, y: 100 } }
+var box = { width: 300, height: 300, center: { x: 150, y: 150 } }
 var measures = new Measures(1, 5, box, 20);
 measures.add('feedback', 3);
 measures.add('courage', 4);
@@ -55,7 +55,7 @@ class LabelsDrawer {
     text.setAttribute('y', measure.y);
     text.setAttribute('fill', '#000000');
     text.setAttribute('transform', `rotate(${measure.angle * -1}, ${rect.left}, ${rect.top})`);
-    text.textContent = measure.name;
+    text.textContent = `${measure.name} (${measure.value})`;
     container.appendChild(text);
   }
 }
