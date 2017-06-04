@@ -83,10 +83,11 @@ class HackyPath {
   draw(container) {
    const path = document.createElementNS(this._svgNameSpace, 'path');
    path.setAttribute('d', this._buildPath());
+   path.setAttribute('id', 'points-path');
    path.setAttribute('fill', 'rgba(255, 0, 0, .60)');
-   path.setAttribute('style', 'z-index: -1;');
 
-   container.appendChild(path);
+   var groups = document.getElementsByTagName('g');
+   container.insertBefore(path, groups[0]);
  }
 
  _buildPath() {
