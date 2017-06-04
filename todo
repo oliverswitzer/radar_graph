@@ -1,4 +1,6 @@
 - when drawing empty set of measures
 - move validation of bounds down to unit test
-- implement query methods rather than callback
 - Rename drawers to not be plural
+- allow multiple measures to be able to graphed (currently the path points looks at all points)
+- shift labels on one side of graph to left and right on the other
+- draw tick marks along lines
