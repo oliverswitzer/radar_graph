@@ -6,10 +6,11 @@ describe('measures', () => {
   const lowerBound = 1;
   const measureName = 'measure name';
   const upperBound = 5;
+  const box = { width: 100, height: 100 };
   var measures;
 
   beforeEach(() => {
-    measures = new Measures(lowerBound, upperBound);
+    measures = new Measures(lowerBound, upperBound, box);
   });
 
   describe('construction', () => {

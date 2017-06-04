@@ -1,8 +1,8 @@
 const Measure = require('./measure');
 class Measures {
-    constructor(lowerBound, upperBound) {
+    constructor(lowerBound, upperBound, box) {
       this._bounds = new Bounds(lowerBound, upperBound);
-      this._box = { width: 100, height: 100 }
+      this._box = box;
       this._measures = [];
     }
 
@@ -12,7 +12,7 @@ class Measures {
     }
 
     draw(type, drawer) {
-      this._measures.forEach((measure, i ) => {
+      this._measures.forEach((measure, i) => {
         const angle = this._calculateAngle(i);
         if (type === 'points') {
           var point = measure.point();

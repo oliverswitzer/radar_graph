@@ -1,5 +1,6 @@
 const Measures = require('./measures');
-var measures = new Measures(1, 5);
+var box = { width: 100, height: 100, center: { x: 50, y: 50 } }
+var measures = new Measures(1, 5, box);
 measures.add('feedback', 3);
 measures.add('courage', 4);
 measures.add('communication', 2.5);
@@ -21,7 +22,7 @@ class PointsDrawer {
 
     this._makeCircle(wrapper, measure);
     this._makeLabel(wrapper, measure);
-    wrapper.setAttribute('transform', `rotate(${measure.angle}, 50, 50)`);
+    wrapper.setAttribute('transform', `rotate(${measure.angle}, ${box.center.x}, ${box.center.y})`);
    }
 
    _makeCircle(container, measure) {
@@ -38,6 +39,7 @@ class PointsDrawer {
      const text = document.createElementNS(this._svgNameSpace, 'text');
      const circleElement = document.querySelector(`[data-name='${measure.name}']`);
      const rect = circleElement.getBoundingClientRect();
+
      text.setAttribute('x', measure.x);
      text.setAttribute('y', measure.y);
      text.setAttribute('fill', '#ff0000');
@@ -57,10 +59,10 @@ class LinesDrawer {
     const path = document.createElementNS(this._svgNameSpace, 'path');
     path.setAttribute('d', line.d);
     path.setAttribute('stroke', 'grey');
-    path.setAttribute('transform', `rotate(${line.angle}, 50, 50)`);
+    path.setAttribute('transform', `rotate(${line.angle}, ${box.center.x}, ${box.center.y})`);
     this._container.appendChild(path);
    }
 }
 
-measures.draw('points', new PointsDrawer(c));
 measures.draw('lines', new LinesDrawer(c));
+measures.draw('points', new PointsDrawer(c));
