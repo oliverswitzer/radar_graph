@@ -72,7 +72,7 @@ describe('measures', () => {
       measures.add(measureName, upperBound);
       measures.draw('lines', fakeDraw);
 
-      expect(fakeDraw.draw).toHaveBeenCalledWith({d: 'M 50 0 L 50 100'});
+      expect(fakeDraw.draw).toHaveBeenCalledWith({d: 'M 50 0 L 50 100', angle: 0});
     });
   });
 });

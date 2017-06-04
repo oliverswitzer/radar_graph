@@ -1,7 +1,10 @@
 const Measures = require('./measures');
 var measures = new Measures(1, 5);
-measures.add('example', 2);
-measures.add('example', 2);
+measures.add('feedback', 2);
+measures.add('courage', 2);
+measures.add('communication', 2);
+measures.add('respect', 2);
+measures.add('simplicity', 2);
 
 const c = document.getElementById('svg-container');
 
@@ -46,6 +49,7 @@ class LinesDrawer {
     const path = document.createElementNS(this._svgNameSpace, 'path');
     path.setAttribute('d', line.d);
     path.setAttribute('stroke', 'grey');
+    path.setAttribute('transform', `rotate(${line.angle}, 50, 50)`);
     this._container.appendChild(path);
    }
 }

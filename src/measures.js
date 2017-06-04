@@ -13,12 +13,13 @@ class Measures {
 
     draw(type, drawer) {
       this._measures.forEach((measure, i ) => {
+        const angle = this._calculateAngle(i);
         if (type === 'points') {
           var point = measure.point();
-          point.angle = this._calculateAngle(i);
+          point.angle = angle;
           drawer.draw(point);
         } else if (type === 'lines') {
-          drawer.draw(linePresenter(measure.line()));
+          drawer.draw(linePresenter(measure.line(), angle));
         }
       });
     }
@@ -47,8 +48,8 @@ class Measures {
     }
 }
 
-function linePresenter(lines) {
-  return {d: lines.map((l) => `${l.type} ${l.x} ${l.y}`).join(' ')};
+function linePresenter(points, angle) {
+  return {d: points.map((l) => `${l.type} ${l.x} ${l.y}`).join(' '), angle: angle};
 }
 
 class Bounds {
