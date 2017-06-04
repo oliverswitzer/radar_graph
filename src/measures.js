@@ -12,7 +12,9 @@ class Measures {
 
     draw(type, drawer) {
       if (type === 'points') {
-        drawer.draw(this._measure.point(1.58));
+        var point = this._measure.point(1.58);
+        point.angle = 90;
+        drawer.draw(point);
       } else if (type === 'lines') {
         drawer.draw(linePresenter(this._measure.line()));
       }

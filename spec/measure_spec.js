@@ -6,7 +6,7 @@ describe('Measure', () => {
       const center = {width: 100, height: 100};
       const measure = new Measure(center, 'measure name', 5);
 
-      const point = measure.point(1.58);
+      const point = measure.point();
       expect(point.x).toBeCloseTo(50, 0);
       expect(point.y).toBeCloseTo(0, 0);
       expect(point.name).toEqual('measure name');
@@ -16,7 +16,7 @@ describe('Measure', () => {
       const center = {width: 100, height: 100};
       const measure = new Measure(center, 'measure name', 1);
 
-      const point = measure.point(1.58);
+      const point = measure.point();
       expect(point.x).toBeCloseTo(50, 0);
       expect(point.y).toBeCloseTo(40, 0);
       expect(point.name).toEqual('measure name');

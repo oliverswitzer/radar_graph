@@ -44,7 +44,7 @@ describe('measures', () => {
       measures.add(measureName, upperBound);
       measures.draw('points', fakeDraw);
 
-      expect(fakeDraw.draw).toHaveBeenCalledWith({x: 50, y: 0, name: measureName});
+      expect(fakeDraw.draw).toHaveBeenCalledWith({x: 50, y: 0, name: measureName, angle: 90});
     });
 
     it('calls draw with lines', () => {
