@@ -8,11 +8,11 @@ measures.add('respect', 5);
 measures.add('simplicity', 1);
 
 const c = document.getElementById('svg-container');
-
-class PointsDrawer {
-  constructor(container) {
+class TransformDrawer {
+  constructor(container, drawer) {
     this._svgNameSpace = 'http://www.w3.org/2000/svg';
     this._container = container;
+    this._drawer = drawer;
   }
 
   draw(measure) {
@@ -20,19 +20,10 @@ class PointsDrawer {
     const wrapper = document.createElementNS(this._svgNameSpace, 'g');
     container.appendChild(wrapper);
 
-    this._makeCircle(wrapper, measure);
+    this._drawer.draw(wrapper, measure);
+
     this._makeLabel(wrapper, measure);
     wrapper.setAttribute('transform', `rotate(${measure.angle}, ${box.center.x}, ${box.center.y})`);
-   }
-
-   _makeCircle(container, measure) {
-     const circle = document.createElementNS(this._svgNameSpace, 'circle');
-     circle.setAttribute('cx', measure.x);
-     circle.setAttribute('cy', measure.y);
-     circle.setAttribute('data-name', measure.name);
-     circle.setAttribute('r', 2);
-     circle.setAttribute('stroke', '#ff0000');
-     container.appendChild(circle);
    }
 
    _makeLabel(container, measure) {
@@ -47,6 +38,22 @@ class PointsDrawer {
      text.textContent = measure.name;
      container.appendChild(text);
    }
+}
+
+class PointsDrawer {
+  draw(container, measure) {
+    this._makeCircle(container, measure);
+  }
+
+  _makeCircle(container, measure) {
+    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circle.setAttribute('cx', measure.x);
+    circle.setAttribute('cy', measure.y);
+    circle.setAttribute('data-name', measure.name);
+    circle.setAttribute('r', 2);
+    circle.setAttribute('stroke', '#ff0000');
+    container.appendChild(circle);
+  }
 }
 
 class LinesDrawer {
@@ -64,5 +71,41 @@ class LinesDrawer {
    }
 }
 
+
+
+   //
+  //  _drawPathBetweenPoints() {
+  //    const p = document.createElementNS(this._svgNameSpace, 'path');
+  //    p.setAttribute('d', this._path());
+  //    p.setAttribute('fill', 'rgba(255, 0, 0, .60)');
+  //    c.appendChild(p);
+  //  }
+   //
+  //  _path() {
+  //    const bounding = document.getElementById('svg-container').getBoundingClientRect();
+  //    const listOfCircles = this._getCircles();
+  //    return listOfCircles.map((circle, i) => {
+  //      const rect = circle.getBoundingClientRect();
+  //      const radius = parseInt(circle.getAttribute('r'));
+  //      return `${this._getCommand(i)} ${rect.left - bounding.left + radius} ${rect.top - bounding.top + radius}`
+  //    }).join(' ');
+  //  }
+   //
+  //   _getCommand(i) {
+  //    if (i === 0) {
+  //      return 'M';
+  //    } else {
+  //      return 'L';
+  //    }
+  //  }
+   //
+  //  _getCircles() {
+  //    const circleElements = document.getElementsByTagName('circle');
+  //    let array = []
+  //    for (var i = 0; i < circleElements.length; i++) {
+  //      array.push(circleElements[i]);
+  //    }
+  //    return array;
+  //  }
 measures.draw('lines', new LinesDrawer(c));
-measures.draw('points', new PointsDrawer(c));
+measures.draw('points', new TransformDrawer(c, new PointsDrawer()));
