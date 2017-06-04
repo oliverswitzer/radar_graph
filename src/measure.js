@@ -1,10 +1,11 @@
 
 class Measure {
-  constructor(boundingBox, name, value) {
+  constructor(boundingBox, name, value, size) {
     this._box = boundingBox;
     this._center = this._calculateCenter(boundingBox);
     this._name = name;
     this._value = value;
+    this._stepSize = size;
   }
 
   point() {
@@ -22,7 +23,7 @@ class Measure {
 
   _calculateHeight() {
     // 10 is the height of each marker in the range
-    return (this._box.height / 2) - (10 * this._value);
+    return (this._box.height / 2) - (this._stepSize * this._value);
   }
 }
 

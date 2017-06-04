@@ -1,14 +1,15 @@
 const Measure = require('./measure');
 class Measures {
-    constructor(lowerBound, upperBound, box) {
+    constructor(lowerBound, upperBound, box, stepSize) {
       this._bounds = new Bounds(lowerBound, upperBound);
       this._box = box;
       this._measures = [];
+      this._stepSize = stepSize;
     }
 
     add(name, value) {
       this._validateAdd(name, value);
-      this._measures.push(new Measure(this._box, name, value));
+      this._measures.push(new Measure(this._box, name, value, this._stepSize));
     }
 
     draw(type, drawer) {

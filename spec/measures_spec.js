@@ -10,7 +10,7 @@ describe('measures', () => {
   var measures;
 
   beforeEach(() => {
-    measures = new Measures(lowerBound, upperBound, box);
+    measures = new Measures(lowerBound, upperBound, box, 10);
   });
 
   describe('construction', () => {

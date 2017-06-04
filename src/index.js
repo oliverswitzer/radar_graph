@@ -1,6 +1,6 @@
 const Measures = require('./measures');
-var box = { width: 100, height: 100, center: { x: 50, y: 50 } }
-var measures = new Measures(1, 5, box);
+var box = { width: 200, height: 200, center: { x: 100, y: 100 } }
+var measures = new Measures(1, 5, box, 20);
 measures.add('feedback', 3);
 measures.add('courage', 4);
 measures.add('communication', 2.5);
